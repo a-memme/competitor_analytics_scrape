@@ -14,6 +14,9 @@ The following code utilizes selenium web driver in combination with a headless f
 - The sfy_scrape() function serves only as a piece of the entire puzzle, but is isolated simply so that its purpose can be demonstrated in this analysis. Essentially, it gathers information on all relevant channels appearing through scrolling a (somewhat arbitrary) number of pixels down  the page in a for loop  to load new suggested channels. The channels are stored in a list to be accessed through the full_scrape() function which then loops through all the collected channels in the previous step, gathering all relevant information of interest:
 
 ```
+  #Metrics Scrape
+  creator_list = sfy_scrape()
+  #Visiting each profile in the creator list and scraping the desired metrics
   for creator in creator_list:
     browser.get(creator)
 
