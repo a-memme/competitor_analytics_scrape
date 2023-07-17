@@ -13,8 +13,7 @@ The following code utilizes selenium web driver in combination with a headless f
 
 - The sfy_scrape() function serves only as a piece of the entire puzzle, but is isolated simply so that its purpose can be demonstrated in this analysis. Essentially, it gathers information on all relevant channels appearing through scrolling a (somewhat arbitrary) number of pixels down  the page in a for loop  to load new suggested channels. The channels are stored in a list to be accessed through the full_scrape() function which then loops through all the collected channels in the previous step, gathering all relevant information of interest:
 
-'''
-for
+```
   for creator in creator_list:
     browser.get(creator)
 
@@ -118,8 +117,7 @@ for
 
     browser.delete_all_cookies()
     time.sleep(10)
-
-'''
+```
 
 ## Transform
 Adjustments to data types and regex formatting are applied to some of the data fields in order to prepare the data for loading and interpretation. The final table looks something like what's pictured below:
