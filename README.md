@@ -11,7 +11,7 @@ The following code utilizes selenium web driver in combination with a headless f
 
 ![image](https://github.com/a-memme/competitor_analytics_scrape/assets/79600550/a2728075-1a02-47f0-b93c-1217e845a30c)
 
-- The sfy_scrape() function serves only as a piece of the entire puzzle, but is isolated simply so that its purpose can be demonstrated in this analysis. Essentially, it gathers information on all relevant channels appearing through scrolling a (somewhat arbitrary) number of pixels down  the page in a for loop  to load new suggested channels. The channels are stored in a list to be accessed through the full_scrape() function which then loops through all channels gathering all information of interest:
+- The sfy_scrape() function serves only as a piece of the entire puzzle, but is isolated simply so that its purpose can be demonstrated in this analysis. Essentially, it gathers information on all relevant channels appearing through scrolling a (somewhat arbitrary) number of pixels down  the page in a for loop  to load new suggested channels. The channels are stored in a list to be accessed through the full_scrape() function which then loops through all the collected channels in the previous step, gathering all relevant information of interest:
 
 '''
   #Metrics Scrape
@@ -121,4 +121,14 @@ The following code utilizes selenium web driver in combination with a headless f
     browser.delete_all_cookies()
     time.sleep(10)
 '''
+
+## Transform
+Adjustments to data types and regex formatting are applied to some of the data fields in order to prepare the data for loading and interpretation. The final table looks something like what's pictured below:
+
+![image](https://github.com/a-memme/competitor_analytics_scrape/assets/79600550/c6733abe-e2d5-482a-8531-5095327fc123)
+
+## Load 
+Finally, using google colab authentication and gspread, the dataframe is pushed into a pre-existing G-sheet to serve as a database where information can be accessed by a BI Tool such as Looker for greater visibility or intepretation. If run on the schedule, differential metrics (such as subscriber growth per day) can be calculated to monitor the performance of competior channels of interest.
+
+![image](https://github.com/a-memme/competitor_analytics_scrape/assets/79600550/f3c24f05-8348-4d86-b013-5b7424052e34)
 
