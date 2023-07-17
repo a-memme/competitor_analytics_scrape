@@ -13,9 +13,112 @@ The following code utilizes selenium web driver in combination with a headless f
 
 - The sfy_scrape() function serves only as a piece of the entire puzzle, but is isolated simply so that its purpose can be demonstrated in this analysis. Essentially, it gathers information on all relevant channels appearing through scrolling a (somewhat arbitrary) number of pixels down  the page in a for loop  to load new suggested channels. The channels are stored in a list to be accessed through the full_scrape() function which then loops through all channels gathering all information of interest:
 
-#Update
-! apt-get update
-#Temporarily install firefox
-! apt install firefox  xvfb > /dev/null
-#Selenium
-! pip3 install  pyvirtualdisplay selenium webdriver_manager > /dev/null
+'''
+  #Metrics Scrape
+  creator_list = sfy_scrape()
+  #Visiting each profile in the creator list and scraping the desired metrics
+  for creator in creator_list:
+    browser.get(creator)
+
+    #Get metrics of interest
+    webpage = browser.title
+    page_list.append(webpage)
+
+    distro_type = 'SFY'
+    type_list.append(distro_type)
+
+    content_source = 'Creator Show'
+    source_list.append(content_source)
+
+    #Append ip country and city from above steps
+    ip_country.append(country)
+    ip_city.append(city)
+
+    #Get channel name
+    try:
+      channel = browser.find_element(By.CLASS_NAME, "PublicProfileDetailsCard_inlineDiv__V12Dg").text
+      channel_list.append(channel)
+    except NoSuchElementException:
+      channel=np.nan
+      subs=np.nan
+      description = np.nan
+      num_eps = np.nan
+      landing_episode = np.nan
+      landing_info = np.nan
+      landing_thumbnail = np.nan
+
+      channel_list.append(channel)
+      subs_list.append(subs)
+      descrp_list.append(description)
+      num_eps_list.append(num_eps)
+      landing_ep_list.append(landing_episode)
+      landing_info_list.append(landing_info)
+      landing_thumb_list.append(landing_thumbnail)
+      final_links.append(np.nan)
+      time_list.append(np.nan)
+
+      continue
+
+    #Get subscriber base
+    try:
+      subs = browser.find_element(By.CLASS_NAME, "PublicProfileDetailsCard_desktopSubscriberTextOnMedia__l0rjj").text
+    except NoSuchElementException:
+      subs=np.nan
+    subs_list.append(subs)
+
+    #Get channel description
+    description = browser.find_element(By.CLASS_NAME, "PublicProfileCard_desktopTitle__9ik6D").text
+    descrp_list.append(description)
+
+    #Get the most recent episodes location, and respective metrics
+    #Scroll to bottom of page
+    SCROLL_PAUSE_TIME = 5
+    # Get scroll height
+    last_height = browser.execute_script("return document.body.scrollHeight")
+    while True:
+        # Scroll down to bottom
+        browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        # Wait to load page
+        time.sleep(SCROLL_PAUSE_TIME)
+        # Calculate new scroll height and compare with last scroll height
+        new_height = browser.execute_script("return document.body.scrollHeight")
+        if new_height == last_height:
+            break
+        last_height = new_height
+
+    episodes = browser.find_elements(By.CLASS_NAME, 'StoryListTile_title__uu0Lo')
+    num_eps = len(episodes)
+    num_eps_list.append(num_eps)
+
+    if num_eps > 0:
+      landing_episode = episodes[(num_eps-1)].text
+
+      all_episodes_info = browser.find_elements(By.CLASS_NAME, 'StoryListTile_storyInfo__XnOTC')
+      landing_info = all_episodes_info[(num_eps-1)].text
+
+      multiple = browser.find_elements(By.CSS_SELECTOR, ".StoryListTile_thumbnail__NYD_G [src]")
+      landing_thumbnail = multiple[(num_eps-1)].get_attribute('src')
+
+    else:
+      landing_episode = np.nan
+      landing_info = np.nan
+      landing_thumbnail = np.nan
+
+    #Append all recent episode metrics to lists
+    landing_ep_list.append(landing_episode)
+    landing_info_list.append(landing_info)
+    landing_thumb_list.append(landing_thumbnail)
+
+
+    #Append link to final link list
+    final_links.append(creator)
+
+    #Timestamp
+    utc = pd.Timestamp.today().floor('MIN').to_numpy()
+    timestamp = utc - np.timedelta64(4, 'h')
+    time_list.append(timestamp)
+
+    browser.delete_all_cookies()
+    time.sleep(10)
+'''
+
