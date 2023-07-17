@@ -15,6 +15,7 @@ The following code utilizes selenium web driver in combination with a headless f
 
 '''
 #Visiting each profile in the creator list and scraping the desired metrics
+
   for creator in creator_list:
     browser.get(creator)
 
