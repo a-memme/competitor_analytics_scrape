@@ -128,7 +128,7 @@ Adjustments to data types and regex formatting are applied to some of the data f
 ![image](https://github.com/a-memme/competitor_analytics_scrape/assets/79600550/c6733abe-e2d5-482a-8531-5095327fc123)
 
 ## Load 
-Finally, using google colab authentication and gspread, the dataframe is pushed into a pre-existing G-sheet to serve as a database where information can be accessed by a BI Tool such as Looker for greater visibility or intepretation. If run on the schedule, differential metrics (such as subscriber growth per day) can be calculated to monitor the performance of competior channels of interest.
+Finally, using google colab authentication and gspread, the dataframe is pushed into a pre-existing G-sheet to serve as a database where information can be accessed by a BI Tool such as Looker for greater visibility or intepretation. If run on a schedule - such as a daily schedule for instance - differential metrics (such as subscriber growth per day) can be calculated to monitor the performance of competior channels of interest.
 
 ![image](https://github.com/a-memme/competitor_analytics_scrape/assets/79600550/f3c24f05-8348-4d86-b013-5b7424052e34)
 
